@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unleash Your Productivity with AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Warm Harmony -->
+    <!-- Application Structure Plan: The SPA is designed as a single, scrollable page with a sticky top navigation for easy access to different content blocks. This structure is more fluid and user-friendly than a rigid slide-by-slide presentation. It starts with a high-level introduction, delves into core concepts (AI & Gemini) in a clear two-column layout, presents the key benefits as interactive cards to encourage engagement, provides practical prompts in a highly usable tabbed interface with copy-to-clipboard functionality, and ends with a clear call to action. This thematic flow allows users to explore content non-linearly, focusing on what's most relevant to them, especially the practical prompts which are the key takeaway. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: "What is AI?" & "What is Google Gemini?". Goal: Inform. Viz/Method: Two-column text layout with simple Unicode icons (🧠, ✨) for visual association. Justification: Clear, side-by-side definitions are easy to digest. Library/Method: HTML/Tailwind.
+        - Report Info: "Supercharge Your Workday" benefits. Goal: Engage & Organize. Viz/Method: A grid of interactive cards. Clicking a card reveals its description. Justification: This is more engaging than a static list and breaks down information into digestible chunks. Library/Method: HTML/Tailwind, JS for toggle interaction.
+        - Report Info: Demo prompts for Sheets, Slides, Gmail. Goal: Provide Practical Tools. Viz/Method: A tabbed interface, with each tab containing formatted prompt blocks. Justification: Tabs cleanly separate the different applications, and the copy-to-clipboard functionality makes the prompts immediately actionable, which is the primary user goal. Library/Method: HTML/Tailwind, JS for tab switching and clipboard access.
+        - No charts were used as the source material is explanatory and does not contain quantifiable data to visualize. The focus is on empowering the user to create their own assets with Gemini.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF6;
+            color: #3D3D3D;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #E27D60;
+            border-bottom-color: #E27D60;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .tab-btn {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: #E27D60;
+            color: #FFFFFF;
+        }
+        .prompt-block {
+            background-color: #F5F3EF;
+            border-left: 4px solid #E27D60;
+        }
+        .copy-btn {
+            transition: background-color 0.2s ease;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Unleash Your Productivity</h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#intro" class="nav-link font-medium pb-1">Intro</a>
+                <a href="#concepts" class="nav-link font-medium pb-1">Concepts</a>
+                <a href="#applications" class="nav-link font-medium pb-1">Benefits</a>
+                <a href="#demos" class="nav-link font-medium pb-1">Demos</a>
+                <a href="#start" class="nav-link font-medium pb-1">Get Started</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#intro" class="block text-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Intro</a>
+            <a href="#concepts" class="block text-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Concepts</a>
+            <a href="#applications" class="block text-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Benefits</a>
+            <a href="#demos" class="block text-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Demos</a>
+            <a href="#start" class="block text-center py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Get Started</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="intro" class="pt-20 pb-16">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 text-[#E27D60]">A Practical Guide to Google Gemini</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    Welcome to your interactive guide for the company Kick-Off Meeting. This page is designed to demystify Artificial Intelligence and demonstrate how Google's powerful AI assistant, Gemini, can revolutionize your daily workflow. Explore the concepts, discover the benefits, and grab practical prompts to get started right away.
+                </p>
+            </div>
+        </section>
+
+        <section id="concepts" class="py-16 bg-[#F5F3EF]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <h2 class="text-3xl font-bold text-gray-800">The Core Concepts</h2>
+                     <p class="mt-2 text-gray-600">To get started, let's break down the two key ideas: what AI is and how Google Gemini fits in. Understanding these concepts will help you see the potential in your daily tasks.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold mb-4 flex items-center">🧠 What is Artificial Intelligence?</h3>
+                        <p class="mb-4 text-gray-600">AI is the simulation of human intelligence in machines. It's a broad field about creating systems that can perform tasks which normally require human intellect:</p>
+                        <ul class="space-y-2 list-disc list-inside text-gray-700">
+                            <li><span class="font-semibold">Learn</span> from data and experience.</li>
+                            <li><span class="font-semibold">Reason</span> and solve problems.</li>
+                            <li><span class="font-semibold">Understand</span> human language.</li>
+                            <li class="pt-2"><strong class="text-[#E27D60]">Generative AI</strong>, our focus, takes this a step further by <strong class="text-[#E27D60]">creating new content</strong>—like text, ideas, and images—based on your instructions.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold mb-4 flex items-center">✨ Meet Google Gemini</h3>
+                        <p class="mb-4 text-gray-600">Gemini is Google's powerful and creative AI assistant, designed to be your helpful collaborator. Here's what makes it special:</p>
+                        <ul class="space-y-2 list-disc list-inside text-gray-700">
+                            <li>It's <span class="font-semibold">multimodal</span>, understanding not just text, but also images, data, and more.</li>
+                            <li>It's <span class="font-semibold">integrated</span> directly into the Google tools you use every day: Gmail, Sheets, Slides, and Docs.</li>
+                            <li>It's a <span class="font-semibold">partner</span> ready to help you brainstorm, write, analyze, and create more efficiently.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="applications" class="py-16">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                     <h2 class="text-3xl font-bold text-gray-800">Supercharge Your Workday</h2>
+                     <p class="mt-2 text-gray-600 max-w-3xl mx-auto">Gemini isn't just a futuristic concept; it's a practical tool that can solve common workplace challenges. Below are the key ways Gemini can help you save time and produce better work. Click on each card to learn more.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="benefit-card card bg-white p-6 rounded-lg shadow-md cursor-pointer" data-benefit="synthesis">
+                        <h4 class="text-xl font-bold mb-2 flex items-center">📄 Information Synthesis</h4>
+                        <p class="benefit-description hidden text-gray-600">Tired of long email threads or dense documents? Gemini can read and distill pages of text into key points, action items, and executive summaries in seconds.</p>
+                    </div>
+                    <div class="benefit-card card bg-white p-6 rounded-lg shadow-md cursor-pointer" data-benefit="brainstorming">
+                        <h4 class="text-xl font-bold mb-2 flex items-center">💡 Idea Generation</h4>
+                        <p class="benefit-description hidden text-gray-600">Stuck in a creative rut? Use Gemini as a brainstorming partner. Ask for project ideas, blog post titles, marketing angles, or solutions to a tricky problem.</p>
+                    </div>
+                    <div class="benefit-card card bg-white p-6 rounded-lg shadow-md cursor-pointer" data-benefit="content">
+                        <h4 class="text-xl font-bold mb-2 flex items-center">✍️ Content Creation</h4>
+                        <p class="benefit-description hidden text-gray-600">Go from a blank page to a full draft instantly. Gemini can write emails, reports, proposals, and even presentation slides based on a few of your bullet points.</p>
+                    </div>
+                    <div class="benefit-card card bg-white p-6 rounded-lg shadow-md cursor-pointer" data-benefit="analysis">
+                        <h4 class="text-xl font-bold mb-2 flex items-center">📊 Data Analysis</h4>
+                        <p class="benefit-description hidden text-gray-600">Analyze spreadsheet data without complex formulas. Ask Gemini to identify trends, find outliers, calculate totals, and even generate charts to visualize the information.</p>
+                    </div>
+                    <div class="benefit-card card bg-white p-6 rounded-lg shadow-md cursor-pointer" data-benefit="planning">
+                        <h4 class="text-xl font-bold mb-2 flex items-center">📅 Planning & Organization</h4>
+                        <p class="benefit-description hidden text-gray-600">Structure your work more effectively. Ask Gemini to create project plans, build meeting agendas, organize to-do lists, and schedule tasks on your calendar.</p>
+                    </div>
+                     <div class="benefit-card card bg-white p-6 rounded-lg shadow-md cursor-pointer flex items-center justify-center" data-benefit="all">
+                        <h4 class="text-xl font-bold text-center text-[#E27D60]">Click to Reveal All</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="demos" class="py-16 bg-[#F5F3EF]">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                     <h2 class="text-3xl font-bold text-gray-800">Practical Demos & Prompts</h2>
+                     <p class="mt-2 text-gray-600 max-w-3xl mx-auto">This is where theory meets practice. Below are concrete examples and prompts you can use directly in your favorite Google apps. Select a tab to see the demos for that tool, and use the copy button to grab any prompt you'd like to try.</p>
+                </div>
+
+                <div>
+                    <div class="mb-8 flex justify-center border-b border-gray-300">
+                        <button class="tab-btn active py-3 px-6 font-semibold text-gray-600" data-tab="sheets">📊 Google Sheets</button>
+                        <button class="tab-btn py-3 px-6 font-semibold text-gray-600" data-tab="slides">💻 Google Slides</button>
+                        <button class="tab-btn py-3 px-6 font-semibold text-gray-600" data-tab="gmail">📧 Google Mail</button>
+                    </div>
+
+                    <div id="sheets" class="tab-content">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">Scenario 1: Instant Analysis</h4>
+                                <p class="text-gray-600 mb-4">Quickly understand your data without writing a single formula.</p>
+                                <div class="prompt-block p-4 rounded-lg">
+                                    <pre class="whitespace-pre-wrap text-sm text-gray-800">Analyze the data in this sheet and identify the top 3 products by revenue. Create a bar chart to visualize these results.</pre>
+                                </div>
+                                <button class="copy-btn mt-4 bg-[#E27D60] text-white py-2 px-4 rounded-md hover:bg-[#d16a50]">Copy Prompt</button>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">Scenario 2: Automated Planning</h4>
+                                <p class="text-gray-600 mb-4">Create a structured plan from a simple request.</p>
+                                <div class="prompt-block p-4 rounded-lg">
+                                    <pre class="whitespace-pre-wrap text-sm text-gray-800">Create a project plan for a new product launch. Include columns for task, owner, due date, and status. Populate it with 5 example tasks.</pre>
+                                </div>
+                                <button class="copy-btn mt-4 bg-[#E27D60] text-white py-2 px-4 rounded-md hover:bg-[#d16a50]">Copy Prompt</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="slides" class="tab-content hidden">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">Scenario 1: From Idea to Deck</h4>
+                                <p class="text-gray-600 mb-4">Generate an entire presentation outline in seconds.</p>
+                                <div class="prompt-block p-4 rounded-lg">
+                                    <pre class="whitespace-pre-wrap text-sm text-gray-800">Create a 5-slide presentation on our Q3 company goals. The first slide should be a title slide. The following slides should cover 'Sales Growth,' 'Product Innovation,' and 'Customer Satisfaction.'</pre>
+                                </div>
+                                <button class="copy-btn mt-4 bg-[#E27D60] text-white py-2 px-4 rounded-md hover:bg-[#d16a50]">Copy Prompt</button>
+                            </div>
+                             <div>
+                                <h4 class="text-xl font-bold mb-2">Scenario 2: Content & Image Help</h4>
+                                <p class="text-gray-600 mb-4">Refine a slide and find visuals automatically.</p>
+                                <div class="prompt-block p-4 rounded-lg">
+                                    <pre class="whitespace-pre-wrap text-sm text-gray-800">Summarize this slide into three bullet points and generate a professional image of a team collaborating.</pre>
+                                </div>
+                                <button class="copy-btn mt-4 bg-[#E27D60] text-white py-2 px-4 rounded-md hover:bg-[#d16a50]">Copy Prompt</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="gmail" class="tab-content hidden">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">Scenario 1: Effortless Email Drafting</h4>
+                                <p class="text-gray-600 mb-4">Write professional emails without the effort.</p>
+                                <div class="prompt-block p-4 rounded-lg">
+                                    <pre class="whitespace-pre-wrap text-sm text-gray-800">Draft a follow-up email to a client after our meeting. Thank them, summarize the key points (Project X timeline, budget), and suggest a follow-up call next week.</pre>
+                                </div>
+                                <button class="copy-btn mt-4 bg-[#E27D60] text-white py-2 px-4 rounded-md hover:bg-[#d16a50]">Copy Prompt</button>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">Scenario 2: The Instant Summary</h4>
+                                <p class="text-gray-600 mb-4">Catch up on long conversations with a single click.</p>
+                                <div class="bg-white p-4 rounded-lg shadow">
+                                    <p class="text-gray-800"><strong>Action:</strong> In a long email thread, open the Gemini side panel and click the pre-populated <strong>"Summarize this thread"</strong> button.</p>
+                                    <p class="mt-2 text-sm text-gray-500">No prompt needed! Gemini automatically suggests this highly useful action for you.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="start" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-3xl font-bold text-gray-800">How to Get Started Today</h2>
+                 <p class="mt-2 mb-8 text-gray-600 max-w-2xl mx-auto">Ready to dive in? Adopting Gemini is easy. Here are a few simple steps to begin integrating AI into your workflow. The key is to experiment and see what works for you.</p>
+                 <div class="max-w-md mx-auto text-left space-y-4">
+                     <div class="flex items-start">
+                        <div class="text-2xl font-bold text-[#E27D60] mr-4">1.</div>
+                        <div>
+                            <h4 class="font-bold">Look for the Gemini Icon</h4>
+                            <p class="text-gray-600">You'll see the ✨ icon at the top of your Google Workspace apps. That's your entry point to AI assistance.</p>
+                        </div>
+                     </div>
+                     <div class="flex items-start">
+                        <div class="text-2xl font-bold text-[#E27D60] mr-4">2.</div>
+                        <div>
+                            <h4 class="font-bold">Start Simple</h4>
+                            <p class="text-gray-600">Don't overthink it. Ask Gemini to summarize an email or help you rephrase a single sentence to be more professional.</p>
+                        </div>
+                     </div>
+                     <div class="flex items-start">
+                        <div class="text-2xl font-bold text-[#E27D60] mr-4">3.</div>
+                        <div>
+                            <h4 class="font-bold">Be Specific with Prompts</h4>
+                            <p class="text-gray-600">The more detail and context you provide in your request (your "prompt"), the better and more relevant the result will be.</p>
+                        </div>
+                     </div>
+                     <div class="flex items-start">
+                        <div class="text-2xl font-bold text-[#E27D60] mr-4">4.</div>
+                        <div>
+                            <h4 class="font-bold">Experiment!</h4>
+                            <p class="text-gray-600">There's no right or wrong way to use it. Play around, try different prompts, and discover how Gemini can best support your unique role.</p>
+                        </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-[#F5F3EF] py-6">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>&copy; 2025 Kärcher South Africa. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const mobileNavLinks = mobileMenu.querySelectorAll('a');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const benefitCards = document.querySelectorAll('.benefit-card');
+            benefitCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const benefitType = card.dataset.benefit;
+                    if (benefitType === 'all') {
+                        const allDescriptions = document.querySelectorAll('.benefit-description');
+                        const allVisible = Array.from(allDescriptions).every(desc => !desc.classList.contains('hidden'));
+                         allDescriptions.forEach(desc => {
+                            if (allVisible) {
+                                desc.classList.add('hidden');
+                            } else {
+                                desc.classList.remove('hidden');
+                            }
+                        });
+                    } else {
+                        const description = card.querySelector('.benefit-description');
+                        if (description) {
+                            description.classList.toggle('hidden');
+                        }
+                    }
+                });
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const tabId = button.dataset.tab;
+                    tabContents.forEach(content => {
+                        if (content.id === tabId) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const promptBlock = button.previousElementSibling;
+                    const textToCopy = promptBlock.querySelector('pre').innerText;
+                    
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        button.innerText = 'Copied!';
+                        button.classList.add('bg-green-500', 'hover:bg-green-600');
+                        button.classList.remove('bg-[#E27D60]', 'hover:bg-[#d16a50]');
+                        setTimeout(() => {
+                            button.innerText = 'Copy Prompt';
+                            button.classList.remove('bg-green-500', 'hover:bg-green-600');
+                            button.classList.add('bg-[#E27D60]', 'hover:bg-[#d16a50]');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                });
+            });
+            
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if(link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
